@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 export default makeStyles(() => ({
   appBar: {
@@ -6,14 +6,16 @@ export default makeStyles(() => ({
     margin: '30px 0',
     display: 'flex',
     flexDirection: 'row',
-    background: 'linear-gradient(45deg, #a11030 30%, #a83a00 90%)',
     justifyContent: 'center',
     alignItems: 'center',
-    
+    background: '#faffe6'
   },
   heading: {
-    color: '#56052C',
-    textShadow: '4px 3px 0px #a11010, 9px 8px 0px rgba(0,0,0,0.15)'
+    color: 'rgba(0,183,255, 1)',
+    textShadow: '4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15)',
+    fontFamily: '"Apple Color Emoji"'
   },
-  
-}));
+  image: {
+    marginLeft: '15px',
+  },
+}))

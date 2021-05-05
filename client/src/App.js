@@ -1,83 +1,40 @@
-import React, {useState, useEffect} from 'react'
-import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core'
-import Posts from './components/Posts/Posts'
-import Form from './components/Form/Form'
-import useStyles from './styles'
-import {useDispatch} from 'react-redux'
-import {getPosts} from './actions/posts'
+import React, { useState, useEffect } from 'react';
+import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
+import Posts from './components/Posts/Posts';
+import Form from './components/Form/Form';
+import { getPosts } from './actions/posts';
+import useStyles from './styles';
 
-const App = () =>{
-  const classes = useStyles()
-  const dispatch = useDispatch()
+const App = () => {
+  const [currentId, setCurrentId] = useState(0);
+  const dispatch = useDispatch();
+  const classes = useStyles();
 
   useEffect(() => {
-    dispatch(getPosts())
-  }, [dispatch])
-
+    dispatch(getPosts());
+  }, [currentId, dispatch]);
 
   return (
-    <Container maxWidth= "lg">
-      <AppBar className={classes.appBar} position= "static" color= "inherit">
-        <Typography className={classes.heading} variant= "h1" align="center">Magical Creatures</Typography>
-      
+    <Container maxWidth="lg">
+      <AppBar className={classes.appBar} position="static" color="inherit">
+        <Typography className={classes.heading} variant="h2" align="center">Fantastic Beasts</Typography>
       </AppBar>
       <Grow in>
         <Container>
           <Grid container justify="space-between" alignItems="stretch" spacing={3}>
             <Grid item xs={12} sm={7}>
-             <Posts />
+              <Posts setCurrentId={setCurrentId} />
             </Grid>
-              
             <Grid item xs={12} sm={4}>
-              <Form/>
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
           </Grid>
         </Container>
       </Grow>
     </Container>
-  )
-}
+  );
+};
 
-/*import React, {useState, useEffect} from 'react'
-import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core'
-import {useDispatch} from 'react-redux'
-import {getPosts} from './actions/posts'
-import fb from './images/fantasticbeast.jpg'
-import Posts from './components/Posts/Posts'
-import Form from './components/Form/Form'
-import useStyles from './styles'
-
-
-const App = () => {
-  const [currentId, setCurrentId] = useState(null)
-  const classes = useStyles()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [dispatch])
-    return (
-      <Container maxWidth= "lg">
-        <AppBar className={classes.appBar} position= "static" color= "inherit">
-          <Typography className={classes.heading} variant= "h2" align="center">Magical Creatures</Typography>
-          <img className={classes.image} src={fb} alt="fb" height="20"/>
-        </AppBar>
-        <Grow in>
-          <Container>
-            <Grid container justify="space-between" alignItems="stretch" spacing={3}>
-              <Grid item xs={12} sm={7}>
-               <Posts setCurrentId={setCurrentId} />
-              </Grid>
-                
-              <Grid item xs={12} sm={4}>
-                <Form currentId={currentId} setCurrentId={setCurrentId}/>
-              </Grid>
-            </Grid>
-          </Container>
-        </Grow>
-      </Container>
-    )
-  }*/
-
-  export default App;
+export default App;

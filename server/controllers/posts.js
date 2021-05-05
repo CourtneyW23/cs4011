@@ -1,31 +1,69 @@
-const express = require('express')
+import express from 'express';
+import mongoose from 'mongoose';
 
-const Creatures = require('../models/Creatures.js')
+import PostMessage from '../models/postMessage.js';
 
 const router = express.Router();
 
- const getPosts = async (req, res) => { 
+export const getPosts = async (req, res) => { 
     try {
-        const creatures = await Creatures.find();
+        const postMessages = await PostMessage.find();
                 
-        res.status(200).json(creatures);
+        res.status(200).json(postMessages);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
 
- const createPost = async (req, res) => {
-    const { creatureName, classification, origin, affiliation, species, abilities, image  } = req.body;
-
-    const newCreatures = new Creatures({ creatureName, classification, origin, affiliation, species, abilities, image})
+export const getPost = async (req, res) => { 
+    const { id } = req.params;
 
     try {
-        await newCreatures.save();
+        const post = await PostMessage.findById(id);
+        
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
 
-        res.status(201).json(newCreatures );
+export const createPost = async (req, res) => {
+    const { classification, affiliation, abilities, image, creatureName, species } = req.body;
+
+    const newPostMessage = new PostMessage({ classification, affiliation, abilities, image, creatureName, species })
+
+    try {
+        await newPostMessage.save();
+
+        res.status(201).json(newPostMessage );
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
 }
 
-module.exports = {getPosts, createPost};
+export const updatePost = async (req, res) => {
+    const { id } = req.params;
+    const { classification, affiliation, abilities, creatureName, image, species } = req.body;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    const updatedPost = { creatureName, affiliation, classification, abilities, species, image, _id: id };
+
+    await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true });
+
+    res.json(updatedPost);
+}
+
+export const deletePost = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    await PostMessage.findByIdAndRemove(id);
+
+    res.json({ message: "Post deleted successfully." });
+}
+
+
+
+export default router;
