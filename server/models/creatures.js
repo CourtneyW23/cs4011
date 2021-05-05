@@ -7,10 +7,7 @@ const postSchema = mongoose.Schema({
     creatureName: String,
     species: String,
     image: String,
-    createdAt: {
-        type: Date,
-        default: new Date()
-    }
+
 })
 
 const PostMessage = mongoose.model('PostMessage', postSchema)
